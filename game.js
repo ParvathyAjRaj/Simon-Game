@@ -62,22 +62,18 @@ function add_color_to_order(){
     var colors = ["red","blue","yellow","green"];
     var selected_index = Math.floor(Math.random()*4);
     var selected_color = colors[selected_index];
-    console.log(selected_color);
     play_audio(selected_color);
     animation(selected_color);
     order.push(selected_color);
-    console.log("challenge",order);
+    title_change()
 }
 
 
 // function to get the user entries
 function user(each_entered){
     entered_array.push(each_entered);
-    console.log("User entry "+entered_array);
-
-    console.log("entered array is "+entered_array);
     if (entered_array.length === level){
-        setTimeout(check(entered_array), 1000);
+        setTimeout(function(){check(entered_array)}, 1000);
     }
         
 }
@@ -87,38 +83,22 @@ function user(each_entered){
 function check(user_array){
     for (var i = 0; i < level ; i++){
         if (order[i] === user_array[i]){
-            console.log("true ! user["+ i +"] is " + user_array[i] +" order[" + i +"] is "+ order[i]);   
+           continue;
         }
         else {
             check_digit = 0;
-            // alert("False ! user["+ i +"] is " + user_array[i] +" order[" + i +"] is "+ order[i]); 
             wrong_audio = new Audio("sounds/wrong.mp3");
             wrong_audio.play();
             $("body").addClass("game-over");
-            title_change();
+            $("#level-title").text("Game over ! Try again.");
             break;
         }
     }
     if (check_digit === 1){
         level ++;
+        title_change()
         entered_array =[];
         setTimeout(add_color_to_order, 1000);
         
     }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-// reset function
-function reset(){
-    order=[];
 }
